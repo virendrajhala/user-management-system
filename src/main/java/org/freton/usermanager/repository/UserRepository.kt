@@ -23,13 +23,12 @@ class UserRepository {
     }
 
     fun getUsers() : MutableList<UserModel>{
-
         return userList
     }
 
     fun addUser(user:UserModel):UserModel{
 
-        user.id = UserRepository.idCount++
+        user.id = ++UserRepository.idCount
         val isUserAdded = userList.add(user)
 
         try {
@@ -48,7 +47,7 @@ class UserRepository {
     fun updateUser(user:UserModel):UserModel?{
 
         try {
-            var existingUser = userList.firstOrNull { u -> u.id === user.id }
+            var existingUser = userList.firstOrNull { u -> u.id == user.id }
             if (existingUser === null)
                 throw UserException("User with id : ${user?.id} does not exist")
 
@@ -69,11 +68,11 @@ class UserRepository {
 
         var isRemoved : Boolean = false
         try {
-            val user = userList.firstOrNull { u -> u.id === id }
+            val user = userList.firstOrNull { u -> u.id == id }
             if (user === null)
                 throw UserException("User with id : $id does not exist")
 
-            isRemoved = userList.removeIf { u->u.id === id }
+            isRemoved = userList.removeIf { u->u.id == id }
 
             return isRemoved
         }

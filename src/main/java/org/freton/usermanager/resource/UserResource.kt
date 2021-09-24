@@ -1,5 +1,11 @@
 package org.freton.usermanager.resource
 
+import com.fasterxml.jackson.databind.DeserializationConfig
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
@@ -7,8 +13,12 @@ import org.freton.usermanager.model.UserModel
 import org.freton.usermanager.service.UserService
 import org.freton.usermanager.service.userRepo
 import org.freton.usermanager.userexception.UserException
+import org.json.JSONObject
 
 val userService = UserService()
+val mapper = jacksonObjectMapper()
+//val mapper = ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false)
+//val gsonmapper = Gson().newBuilder().serializeNulls().create()
 
 @Path("/user")
 class UserResource {
@@ -16,25 +26,36 @@ class UserResource {
     @Path("/getUsers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getUsers() : List<UserModel>{
-
+    fun getUsers(): Response {
         var userList = userService.getUsers()
-        return userList
+        return Response.ok(userList.toString()).build()
+
+//        println(userList)
+//        return Response.ok().entity(userList).toString()
     }
 
     @Path("/addUser")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun addUser(user:UserModel):UserModel{
+    fun addUser(userJson: String): Response {
 
+        var user = mapper.readValue(userJson, UserModel::class.java)
+//        var user = gsonmapper.fromJson(userJson,UserModel::class.java)
+//        println(user)
         try {
             val addedUser = userRepo.addUser(user)
-            return addedUser
-        }
+            return Response.ok(addedUser.toString()).build()
 
-        catch(e: UserException){
-            throw e
+        } catch (e: Exception) {
+            when (e) {
+                is UserException -> {
+                    return Response.ok(e.message).build()
+                }
+                else -> {
+                    return Response.serverError().build()
+                }
+            }
         }
     }
 
@@ -42,46 +63,60 @@ class UserResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun updateUser(user:UserModel):UserModel?{
-
+    fun updateUser(userJson: String): Response {
+        val user = mapper.readValue(userJson, UserModel::class.java)
         try {
             val updatedUser = userRepo.updateUser(user)
-            return updatedUser
-        }
-
-        catch(e: UserException){
-            throw e
+            return Response.ok(updatedUser.toString()).build()
+        } catch (e: Exception) {
+            return when (e) {
+                is UserException -> {
+                    Response.ok(e.message).build()
+                }
+                else -> {
+                    Response.serverError().build()
+                }
+            }
         }
     }
 
-    @Path("/deleteUser")
+    @Path("/deleteUser/{id}")
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_JSON)
-    fun deleteUser(id:Long): String{
+    @Consumes(MediaType.CHARSET_PARAMETER)
+    fun deleteUser(id:Long): Response {
+
 
         try {
             val isUserDeleted = userRepo.deleteUser(id)
 
-            if(isUserDeleted)
-              return "User with id : $id is deleted successfully"
+            if (isUserDeleted)
+                return Response.ok("User with id : ${id} is deleted successfully").build()
 
-            else{
-                throw UserException("There was some error in deleting the user with id : $id, please try again later")
+            else {
+                throw UserException("There was some error in deleting the user with id : ${id} , please try again later")
+            }
+        }
+        catch (e: Exception) {
+            when (e) {
+                is UserException -> {
+                    return Response.ok(e.message).build()
+                }
+
+                is NullPointerException -> {
+                    return Response.ok(e.message).build()
+                }
+
+                is UnsupportedOperationException -> {
+                    return Response.ok(e.message).build()
+                }
+
+                else -> {
+                    return Response.serverError().build()
+                }
             }
         }
 
-        catch(e: UserException){
-            throw e
-        }
 
-        catch(e:NullPointerException){
-            throw e
-        }
-
-        catch(e:UnsupportedOperationException)
-        {
-            throw e
-        }
     }
 }
