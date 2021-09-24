@@ -1,0 +1,35 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    //  compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.14'
+    implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-http:3.0.0'
+    implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '3.0.0'
+    implementation group: 'junit', name: 'junit', version: '4.12'
+
+    implementation group: 'org.glassfish.jersey.core', name: 'jersey-server', version: '3.0.0'
+
+
+//    // JAX-B dependencies for JDK 9+
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+
+}
+
+test {
+    useJUnitPlatform()
+}
