@@ -28,8 +28,8 @@ class UserRepository {
         val isUserAdded = userList.add(user)
 
         try {
-            if(isUserAdded == false) {
-                throw UserException("There was some error in addding the user to the system")
+            if(isUserAdded === false) {
+                throw UserException("There was some error in adding the user to the system")
             }
 
             return user
@@ -43,8 +43,8 @@ class UserRepository {
     fun updateUser(user:UserModel):UserModel?{
 
         try {
-            var existingUser = userList.firstOrNull { u -> u.id == user.id }
-            if (existingUser == null)
+            var existingUser = userList.firstOrNull { u -> u.id === user.id }
+            if (existingUser === null)
                 throw UserException("User with id : ${user?.id} does not exist")
 
             existingUser?.name = user.name
@@ -64,13 +64,13 @@ class UserRepository {
 
         var isRemoved : Boolean = false
         try {
-            val user = userList.firstOrNull { u -> u.id == id }
-            if (user == null)
+            val user = userList.firstOrNull { u -> u.id === id }
+            if (user === null)
                 throw UserException("User with id : $id does not exist")
 
-            isRemoved = userList.removeIf { u->u.id == id }
+            isRemoved = userList.removeIf { u->u.id === id }
 
-            if(isRemoved == false){
+            if(isRemoved === false){
                 throw UserException("There was some error in deleting the user with id : $id, please try again later")
             }
 
