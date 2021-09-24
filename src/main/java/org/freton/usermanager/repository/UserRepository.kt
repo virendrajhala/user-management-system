@@ -14,7 +14,12 @@ class UserRepository {
     }
 
     init{
-        userList  = mutableListOf<UserModel>()
+        userList  = mutableListOf<UserModel>(
+            UserModel(9997,"Mark","vpsj@gmail.com",23,"Auckland, New Zealand"),
+            UserModel(9998,"Joe","joe123@gmail.com",21,"Sydney, Australia"),
+            UserModel(9999,"Morgan","morgan.123@gmail.com",24,"London, UK"),
+            UserModel(10000,"John","john.wick@gmail.com",28,"Washington, USA")
+        )
     }
 
     fun getUsers() : MutableList<UserModel>{
@@ -69,10 +74,6 @@ class UserRepository {
                 throw UserException("User with id : $id does not exist")
 
             isRemoved = userList.removeIf { u->u.id === id }
-
-            if(isRemoved === false){
-                throw UserException("There was some error in deleting the user with id : $id, please try again later")
-            }
 
             return isRemoved
         }

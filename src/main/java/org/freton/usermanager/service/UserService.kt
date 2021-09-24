@@ -17,8 +17,8 @@ class UserService {
     fun addUser(user:UserModel):UserModel{
 
         try {
-           val addedUSer = userRepo.addUser(user)
-            return addedUSer
+           val addedUser = userRepo.addUser(user)
+            return addedUser
         }
 
         catch(e: UserException){
