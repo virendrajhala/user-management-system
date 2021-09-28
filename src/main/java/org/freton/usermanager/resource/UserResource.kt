@@ -14,6 +14,7 @@ import org.freton.usermanager.service.UserService
 import org.freton.usermanager.service.userRepo
 import org.freton.usermanager.userexception.UserException
 import org.json.JSONObject
+import javax.print.attribute.standard.JobOriginatingUserName
 
 val userService = UserService()
 val mapper = jacksonObjectMapper()
@@ -32,6 +33,87 @@ class UserResource {
 
 //        println(userList)
 //        return Response.ok().entity(userList).toString()
+    }
+
+    @Path("/getuserbyid/{uid}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getUserById(
+        @PathParam("uid") id : Long?,
+    ): Response {
+
+        try {
+            if (id == null) {
+                throw UserException("id can not be null, please supply a valid id")
+            }
+
+            val user = userService.getUserById(id)
+
+            return Response.ok(user.toString()).build()
+
+        } catch (e: Exception) {
+            when (e) {
+                is UserException -> {
+                    return Response.ok(e.message).build()
+                }
+                else -> {
+                    return Response.serverError().build()
+                }
+            }
+        }
+    }
+
+    @Path("/getusersbyname/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getUsersByName(
+        @PathParam("username") userName : String?
+    ): Response {
+
+        try {
+            if (userName == null) {
+                throw UserException("User name can not be null, please supply a valid name")
+            }
+
+            val userList = userService.getUsersByName(userName)
+
+            return Response.ok(userList.toString()).build()
+
+        } catch (e: Exception) {
+            when (e) {
+                is UserException -> {
+                    return Response.ok(e.message).build()
+                }
+                else -> {
+                    return Response.serverError().build()
+                }
+            }
+        }
+    }
+
+    @Path("/getusersbynameandage")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getUsersByNameAndAge(
+        @QueryParam ("name") userName : String?,
+        @QueryParam ("lowerage") lowerAge:Int,
+        @QueryParam ("upperage") upperAge : Int
+    ): Response {
+
+        try {
+            val usersList = userService.getUsersByNameAndAge(userName,upperAge,lowerAge)
+            return Response.ok(usersList.toString()).build()
+
+        } catch (e: Exception) {
+            when (e) {
+                is UserException -> {
+                    return Response.ok(e.message).build()
+                }
+                else -> {
+                    return Response.serverError().build()
+                }
+            }
+        }
     }
 
     @Path("/addUser")
@@ -66,7 +148,7 @@ class UserResource {
     fun updateUser(userJson: String): Response {
         val user = mapper.readValue(userJson, UserModel::class.java)
         try {
-            val updatedUser = userRepo.updateUser(user)
+            val updatedUser = userService.updateUser(user)
             return Response.ok(updatedUser.toString()).build()
         } catch (e: Exception) {
             return when (e) {
@@ -83,12 +165,16 @@ class UserResource {
     @Path("/deleteUser/{id}")
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.CHARSET_PARAMETER)
-    fun deleteUser(id:Long): Response {
-
+    fun deleteUser(
+        @PathParam("id") id : Long?,
+    ): Response {
 
         try {
-            val isUserDeleted = userRepo.deleteUser(id)
+            if(id == null) {
+                throw UserException("id can not be null, please supply a valid id")
+            }
+
+            val isUserDeleted = userService.deleteUser(id)
 
             if (isUserDeleted)
                 return Response.ok("User with id : ${id} is deleted successfully").build()

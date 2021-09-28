@@ -1,20 +1,17 @@
 package org.freton.usermanager.repository
 
-import jakarta.ws.rs.*
-import jakarta.ws.rs.core.MediaType
-import jakarta.ws.rs.core.Response
 import org.freton.usermanager.model.UserModel
 import org.freton.usermanager.userexception.UserException
 
 class UserRepository {
 
-    var userList : MutableList<UserModel>
+    private val userList : MutableList<UserModel>
     companion object UserCount{
         var idCount = 10000L
     }
 
     init{
-        userList  = mutableListOf<UserModel>(
+        userList  = mutableListOf(
             UserModel(9997,"Mark","vpsj@gmail.com",23,"Auckland, New Zealand"),
             UserModel(9998,"Joe","joe123@gmail.com",21,"Sydney, Australia"),
             UserModel(9999,"Morgan","morgan.123@gmail.com",24,"London, UK"),
@@ -26,14 +23,13 @@ class UserRepository {
         return userList
     }
 
-    fun addUser(user:UserModel):UserModel{
+    fun getUserById(id:Long?) : UserModel{
 
-        user.id = ++UserRepository.idCount
-        val isUserAdded = userList.add(user)
+        val user = userList.firstOrNull { u -> u.id == id }
 
-        try {
-            if(isUserAdded === false) {
-                throw UserException("There was some error in adding the user to the system")
+        try{
+            if(user == null){
+                throw UserException("User with id : $id is not present, please check the id and try again")
             }
 
             return user
@@ -42,19 +38,78 @@ class UserRepository {
         catch(e:UserException){
             throw e
         }
+
     }
 
-    fun updateUser(user:UserModel):UserModel?{
+    fun getUsersByName(userName : String?): MutableList<UserModel> {
+
+        val usersList = userList.filter { u-> u.name.equals(userName,ignoreCase = true)}
+        try {
+
+            if(usersList == null){
+                throw UserException("There are no users with the specified name : $userName, please check the name and try again")
+            }
+
+            return usersList.toMutableList()
+
+        } catch (e: UserException) {
+           throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
+    }
+
+    fun getUsersByNameAndAge(userName : String?, upperAge : Int, lowerAge:Int): MutableList<UserModel> {
+
+        val usersList = userList.filter { u-> u.name.equals(userName,ignoreCase = true) && u.age!! >= lowerAge && u.age!! <= upperAge}
+        try {
+
+            if(usersList == null){
+                throw UserException("There are no users with the specified name : $userName, please check the name and try again")
+            }
+
+            return usersList.toMutableList()
+
+        } catch (e: UserException) {
+            throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
+    }
+
+    fun addUser(user:UserModel):UserModel{
+
+        user.id = ++idCount
+        val isUserAdded = userList.add(user)
 
         try {
-            var existingUser = userList.firstOrNull { u -> u.id == user.id }
-            if (existingUser === null)
-                throw UserException("User with id : ${user?.id} does not exist")
+            if(isUserAdded) {
+                return user
+            }
+            throw UserException("There was some error in adding the user to the system")
+        }
 
-            existingUser?.name = user.name
-            existingUser?.email = user.email
-            existingUser?.age = user.age
-            existingUser?.address = user.address
+        catch(e:UserException){
+            throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
+    }
+
+    fun updateUser(user:UserModel):UserModel{
+
+        val existingUser = userList.firstOrNull { u -> u.id == user.id }
+        try {
+            if (existingUser === null)
+                throw UserException("User with id : ${user.id} does not exist")
+
+            existingUser.name = user.name
+            existingUser.email = user.email
+            existingUser.age = user.age
+            existingUser.address = user.address
 
             return existingUser
         }
@@ -62,13 +117,16 @@ class UserRepository {
         catch(e:UserException){
             throw e
         }
+        catch (e : Exception){
+            throw e
+        }
     }
 
-    fun deleteUser(id:Long): Boolean{
+    fun deleteUser(id:Long?): Boolean{
 
-        var isRemoved : Boolean = false
+        val isRemoved : Boolean
+        val user = userList.firstOrNull { u -> u.id == id }
         try {
-            val user = userList.firstOrNull { u -> u.id == id }
             if (user === null)
                 throw UserException("User with id : $id does not exist")
 
@@ -87,6 +145,9 @@ class UserRepository {
 
         catch(e:UnsupportedOperationException)
         {
+            throw e
+        }
+        catch (e : Exception){
             throw e
         }
     }

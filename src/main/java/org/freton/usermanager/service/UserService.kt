@@ -10,39 +10,83 @@ class UserService {
 
     fun getUsers() : MutableList<UserModel>{
 
-        var userList = userRepo.getUsers()
-        return userList
+        return userRepo.getUsers()
+
+    }
+
+    fun getUserById(id:Long?): UserModel {
+
+        try {
+            return userRepo.getUserById(id)
+
+
+        } catch (e: UserException) {
+            throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
+    }
+
+    fun getUsersByName(userName : String?): MutableList<UserModel> {
+
+        try {
+            return userRepo.getUsersByName(userName)
+        }
+        catch (e: UserException) {
+            throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
+    }
+
+    fun getUsersByNameAndAge(userName : String?, upperAge : Int, lowerAge:Int): MutableList<UserModel> {
+
+        try {
+            val usersList = userRepo.getUsersByNameAndAge(userName,upperAge,lowerAge)
+            return usersList.toMutableList()
+
+        } catch (e: UserException) {
+            throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
     }
 
     fun addUser(user:UserModel):UserModel{
 
         try {
-           val addedUser = userRepo.addUser(user)
-            return addedUser
+            return userRepo.addUser(user)
         }
 
         catch(e: UserException){
             throw e
         }
+        catch (e : Exception){
+            throw e
+        }
     }
 
-    fun updateUser(user:UserModel):UserModel?{
+    fun updateUser(user:UserModel):UserModel{
 
         try {
-            val updatedUser = userRepo.updateUser(user)
-            return updatedUser
+            return userRepo.updateUser(user)
         }
 
         catch(e: UserException){
             throw e
         }
+        catch (e : Exception){
+            throw e
+        }
     }
 
-    fun deleteUser(id:Long): Boolean{
+    fun deleteUser(id:Long?): Boolean{
 
         try {
-          val isUserDeleted = userRepo.deleteUser(id)
-            return isUserDeleted
+            return userRepo.deleteUser(id)
         }
 
         catch(e: UserException){
@@ -55,6 +99,9 @@ class UserService {
 
         catch(e:UnsupportedOperationException)
         {
+            throw e
+        }
+        catch (e : Exception){
             throw e
         }
     }
