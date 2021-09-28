@@ -9,11 +9,14 @@ import com.google.gson.GsonBuilder
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
+import kotlinx.serialization.SerializationException
 import org.freton.usermanager.model.UserModel
 import org.freton.usermanager.service.UserService
-import org.freton.usermanager.service.userRepo
 import org.freton.usermanager.userexception.UserException
 import org.json.JSONObject
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.StreamCorruptedException
 import javax.print.attribute.standard.JobOriginatingUserName
 
 val userService = UserService()
@@ -28,8 +31,25 @@ class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getUsers(): Response {
-        var userList = userService.getUsers()
-        return Response.ok(userList.toString()).build()
+        try {
+            var userList = userService.getUsers()
+            return Response.ok(userList.toString()).build()
+        }
+
+        catch(e : Exception){
+            when(e){
+                is UserException ->
+                {
+                    return Response.ok(e.message).build()
+                }
+
+                else ->
+                {
+                    return Response.serverError().build()
+                }
+            }
+
+        }
 
 //        println(userList)
 //        return Response.ok().entity(userList).toString()
@@ -130,7 +150,7 @@ class UserResource {
             if(user.name === null || user.name == ""){
                 throw UserException("User name is mandatory, please mention the user name")
             }
-            val addedUser = userRepo.addUser(user)
+            val addedUser = userService.addUser(user)
             return Response.ok(addedUser.toString()).build()
 
         } catch (e: Exception) {

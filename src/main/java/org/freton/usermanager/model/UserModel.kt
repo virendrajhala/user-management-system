@@ -2,8 +2,10 @@ package org.freton.usermanager.model
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
+import kotlinx.serialization.Serializable
 import org.json.JSONObject
 
+@Serializable
 data class UserModel(
     var id: Long?,
     var name: String?,

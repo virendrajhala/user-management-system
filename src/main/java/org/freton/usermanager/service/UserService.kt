@@ -10,7 +10,15 @@ class UserService {
 
     fun getUsers() : MutableList<UserModel>{
 
-        return userRepo.getUsers()
+        try {
+            return userRepo.getUsers()
+        }
+        catch(e:UserException){
+            throw e
+        }
+        catch (e : Exception){
+            throw e
+        }
 
     }
 
@@ -18,7 +26,6 @@ class UserService {
 
         try {
             return userRepo.getUserById(id)
-
 
         } catch (e: UserException) {
             throw e
