@@ -103,7 +103,7 @@ class UserRepository {
 
         val existingUser = userList.firstOrNull { u -> u.id == user.id }
         try {
-            if (existingUser === null)
+            if (existingUser == null)
                 throw UserException("User with id : ${user.id} does not exist")
 
             existingUser.name = user.name

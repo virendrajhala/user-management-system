@@ -125,7 +125,11 @@ class UserResource {
         var user = mapper.readValue(userJson, UserModel::class.java)
 //        var user = gsonmapper.fromJson(userJson,UserModel::class.java)
 //        println(user)
+
         try {
+            if(user.name === null || user.name == ""){
+                throw UserException("User name is mandatory, please mention the user name")
+            }
             val addedUser = userRepo.addUser(user)
             return Response.ok(addedUser.toString()).build()
 
@@ -148,6 +152,9 @@ class UserResource {
     fun updateUser(userJson: String): Response {
         val user = mapper.readValue(userJson, UserModel::class.java)
         try {
+            if(user.name === null || user.name == ""){
+                throw UserException("User name is mandatory, please mention the user name")
+            }
             val updatedUser = userService.updateUser(user)
             return Response.ok(updatedUser.toString()).build()
         } catch (e: Exception) {
