@@ -2,11 +2,13 @@ package org.freton.usermanager.repository
 
 import com.sun.xml.internal.ws.encoding.soap.SerializationException
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import org.freton.usermanager.model.UserModel
 import org.freton.usermanager.userexception.UserException
 import java.io.*
+
 
 class UserRepository {
 
