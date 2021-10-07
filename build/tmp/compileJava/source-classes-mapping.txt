@@ -1,0 +1,4 @@
+org/fretron/usermanager/model/UserModel.java
+ org.fretron.usermanager.model.UserModel
+ org.fretron.usermanager.model.UserModel$1
+ org.fretron.usermanager.model.UserModel$Builder

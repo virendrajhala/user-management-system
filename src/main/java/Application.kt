@@ -6,6 +6,7 @@ import java.net.URI
 
 fun main(){
     val baseUri:URI = UriBuilder.fromUri("http://0.0.0.0").port(8000).build()
-    val config : ResourceConfig = ResourceConfig(UserResource::class.java)
-    val httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri,config)
+    val config = ResourceConfig(UserResource::class.java)
+    GrizzlyHttpServerFactory.createHttpServer(baseUri,config)
+
 }
