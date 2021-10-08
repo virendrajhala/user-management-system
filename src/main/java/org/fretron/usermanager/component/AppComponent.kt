@@ -6,16 +6,18 @@ import org.freton.usermanager.resource.UserResource
 import org.freton.usermanager.service.UserService
 import org.fretron.usermanager.commonModules.ConfigModule
 import org.fretron.usermanager.commonModules.DatabaseModule
+import org.fretron.usermanager.commonModules.HttpModule
+import org.glassfish.grizzly.http.server.HttpServer
 
 @Component (
     modules = [
         ConfigModule::class,
-        DatabaseModule::class
+        DatabaseModule::class,
+        HttpModule::class
     ]
 )
 interface AppComponent {
 
-    fun getUserResource() : UserResource
-    fun getUserService() : UserService
-    fun getUserRepository() : UserRepository
+    fun getHttpServer(): HttpServer
+
 }

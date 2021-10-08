@@ -1,13 +1,9 @@
-org/fretron/usermanager/model/UserModel.java
- org.fretron.usermanager.model.UserModel
- org.fretron.usermanager.model.UserModel$1
- org.fretron.usermanager.model.UserModel$Builder
-org/fretron/usermanager/commonModules/ConfigModule_GetJacksonObjectMapperFactory.java
- org.fretron.usermanager.commonModules.ConfigModule_GetJacksonObjectMapperFactory
 org/fretron/usermanager/component/DaggerAppComponent.java
  org.fretron.usermanager.component.DaggerAppComponent
  org.fretron.usermanager.component.DaggerAppComponent$1
  org.fretron.usermanager.component.DaggerAppComponent$Builder
+org/fretron/usermanager/commonModules/ConfigModule_GetJacksonObjectMapperFactory.java
+ org.fretron.usermanager.commonModules.ConfigModule_GetJacksonObjectMapperFactory
 org/freton/usermanager/repository/UserRepository_Factory.java
  org.freton.usermanager.repository.UserRepository_Factory
 org/fretron/usermanager/commonModules/DatabaseModule_GetMongoClientFactory.java
@@ -16,5 +12,11 @@ org/fretron/usermanager/commonModules/DatabaseModule_GetMongoDatabaseFactory.jav
  org.fretron.usermanager.commonModules.DatabaseModule_GetMongoDatabaseFactory
 org/freton/usermanager/service/UserService_Factory.java
  org.freton.usermanager.service.UserService_Factory
+org/fretron/usermanager/model/UserModel.java
+ org.fretron.usermanager.model.UserModel
+ org.fretron.usermanager.model.UserModel$1
+ org.fretron.usermanager.model.UserModel$Builder
 org/freton/usermanager/resource/UserResource_Factory.java
  org.freton.usermanager.resource.UserResource_Factory
+org/fretron/usermanager/commonModules/HttpModule_Factory.java
+ org.fretron.usermanager.commonModules.HttpModule_Factory

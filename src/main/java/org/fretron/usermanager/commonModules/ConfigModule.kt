@@ -14,4 +14,18 @@ class ConfigModule {
         return jacksonObjectMapper()
     }
 
+    @Provides
+    fun getServerIp():String{
+
+        val host = "http://0.0.0.0"
+        return host
+    }
+
+    @Provides
+    fun getPort():Int{
+
+        val host = 8080
+        return host
+    }
+
 }
