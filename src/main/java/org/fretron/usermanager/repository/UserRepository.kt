@@ -32,7 +32,7 @@ class UserRepository {
         while(dbCursor.hasNext()){
             val dbObject1 = dbCursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
             userList.add(user)
         }
 
@@ -48,7 +48,7 @@ class UserRepository {
         while(cursor.hasNext()) {
             val dbObject1 = cursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
@@ -66,7 +66,7 @@ class UserRepository {
         while(cursor.hasNext()){
             val dbObject1 = cursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
@@ -84,7 +84,7 @@ class UserRepository {
         while(dbCursor.hasNext()){
             val dbObject1 = dbCursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
@@ -126,7 +126,7 @@ class UserRepository {
 
             val dbObject1 = dbCursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
