@@ -11,19 +11,22 @@ import com.mongodb.util.JSON
 import org.bson.Document
 import org.bson.json.JsonObject
 import org.fretron.usermanager.model.UserModel
+import javax.inject.Inject
 
-class UserRepository {
 
-    private val mongo : MongoClient
-    private val db : MongoDatabase
+class UserRepository @Inject constructor(
+    private val mongo : MongoClient,
+    private val db : MongoDatabase,
     private val mapper : ObjectMapper
-    init{
+    ) {
 
-        mongo = MongoClient("localhost", 27017)
-        db = mongo.getDatabase("UserManager")
-        mapper = jacksonObjectMapper()
-    }
-
+//    init{
+//
+//        mongo = MongoClient("localhost", 27017)
+//        db = mongo.getDatabase("UserManager")
+//        mapper = jacksonObjectMapper()
+//    }
+//
     fun getUsers() : MutableList<UserModel>{
 
         val dbCursor = db.getCollection("User").find().iterator()
@@ -32,7 +35,7 @@ class UserRepository {
         while(dbCursor.hasNext()){
             val dbObject1 = dbCursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
             userList.add(user)
         }
 
@@ -48,7 +51,7 @@ class UserRepository {
         while(cursor.hasNext()) {
             val dbObject1 = cursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
@@ -66,7 +69,7 @@ class UserRepository {
         while(cursor.hasNext()){
             val dbObject1 = cursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
@@ -84,7 +87,7 @@ class UserRepository {
         while(dbCursor.hasNext()){
             val dbObject1 = dbCursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }
@@ -114,7 +117,7 @@ class UserRepository {
         val doc = Document.parse(user.toString())
 
         // set doc id = our object id
-      //  doc["_id"] = user.`id$1`
+      //  doc["_id"] = user.`id$1`sonObject(
         val updateDoc = BasicDBObject()
         updateDoc["\$set"] = doc
 
@@ -126,7 +129,7 @@ class UserRepository {
 
             val dbObject1 = dbCursor.next()
 
-            val user = mapper.readValue(JsonObject(JSON.serialize(dbObject1)).toString(),UserModel::class.java)
+            val user = mapper.readValue(JSON.serialize(dbObject1),UserModel::class.java)
 
             userList.add(user)
         }

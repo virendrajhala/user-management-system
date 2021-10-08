@@ -3,10 +3,11 @@ package org.freton.usermanager.service
 import org.freton.usermanager.repository.UserRepository
 import org.fretron.usermanager.model.UserModel
 import org.fretron.usermanager.userexception.UserException
+import javax.inject.Inject
 
-val userRepo = UserRepository()
+//val userRepo = UserRepository()
 
-class UserService {
+class UserService @Inject constructor(private val userRepo: UserRepository){
 
     fun getUsers() : MutableList<UserModel>{
 
