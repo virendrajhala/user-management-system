@@ -1,21 +1,23 @@
 package org.fretron.usermanager.commonModules
 
 import dagger.Module
+import dagger.Provides
 import org.freton.usermanager.resource.UserResource
-import org.fretron.usermanager.component.DaggerAppComponent
 import org.glassfish.grizzly.http.server.HttpServer
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory
 import org.glassfish.jersey.server.ResourceConfig
-import javax.inject.Inject
+import javax.inject.Named
 import javax.ws.rs.core.UriBuilder
 
 @Module
-class HttpModule @Inject constructor(private val userResource: UserResource,
-                                     private val serverIp:String,
-                                     private val port:Int)
+class HttpModule
 {
-        fun server():HttpServer{
-            val baseUri = UriBuilder.fromUri(serverIp).port(port).build()
+    @Provides
+        fun server(@Named("serverIp")  serverIp:String,
+                   @Named("serverPort") serverPort:Int,
+                   userResource: UserResource):HttpServer{
+
+            val baseUri = UriBuilder.fromUri(serverIp).port(serverPort).build()
             val config = ResourceConfig(userResource::class.java)
             val server = GrizzlyHttpServerFactory.createHttpServer(baseUri,config)
 

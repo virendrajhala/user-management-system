@@ -2,21 +2,35 @@ org/fretron/usermanager/component/DaggerAppComponent.java
  org.fretron.usermanager.component.DaggerAppComponent
  org.fretron.usermanager.component.DaggerAppComponent$1
  org.fretron.usermanager.component.DaggerAppComponent$Builder
+org/fretron/usermanager/commonModules/ConfigModule_GetDatabaseNameFactory.java
+ org.fretron.usermanager.commonModules.ConfigModule_GetDatabaseNameFactory
 org/fretron/usermanager/commonModules/ConfigModule_GetJacksonObjectMapperFactory.java
  org.fretron.usermanager.commonModules.ConfigModule_GetJacksonObjectMapperFactory
+org/fretron/usermanager/commonModules/RepositoryModule_GetUserRepositoryFactory.java
+ org.fretron.usermanager.commonModules.RepositoryModule_GetUserRepositoryFactory
 org/freton/usermanager/repository/UserRepository_Factory.java
  org.freton.usermanager.repository.UserRepository_Factory
+org/fretron/usermanager/commonModules/ServiceModule_GetUserServiceFactory.java
+ org.fretron.usermanager.commonModules.ServiceModule_GetUserServiceFactory
+org/fretron/usermanager/commonModules/HttpModule_ServerFactory.java
+ org.fretron.usermanager.commonModules.HttpModule_ServerFactory
+org/fretron/usermanager/commonModules/ConfigModule_GetServerPortFactory.java
+ org.fretron.usermanager.commonModules.ConfigModule_GetServerPortFactory
+org/freton/usermanager/resource/UserResource_Factory.java
+ org.freton.usermanager.resource.UserResource_Factory
+org/fretron/usermanager/commonModules/ConfigModule_GetServerIpFactory.java
+ org.fretron.usermanager.commonModules.ConfigModule_GetServerIpFactory
+org/fretron/usermanager/commonModules/ConfigModule_GetDatabaseServerPortFactory.java
+ org.fretron.usermanager.commonModules.ConfigModule_GetDatabaseServerPortFactory
 org/fretron/usermanager/commonModules/DatabaseModule_GetMongoClientFactory.java
  org.fretron.usermanager.commonModules.DatabaseModule_GetMongoClientFactory
 org/fretron/usermanager/commonModules/DatabaseModule_GetMongoDatabaseFactory.java
  org.fretron.usermanager.commonModules.DatabaseModule_GetMongoDatabaseFactory
+org/fretron/usermanager/commonModules/ConfigModule_GetDatabaseServerIpFactory.java
+ org.fretron.usermanager.commonModules.ConfigModule_GetDatabaseServerIpFactory
 org/freton/usermanager/service/UserService_Factory.java
  org.freton.usermanager.service.UserService_Factory
 org/fretron/usermanager/model/UserModel.java
  org.fretron.usermanager.model.UserModel
  org.fretron.usermanager.model.UserModel$1
  org.fretron.usermanager.model.UserModel$Builder
-org/freton/usermanager/resource/UserResource_Factory.java
- org.freton.usermanager.resource.UserResource_Factory
-org/fretron/usermanager/commonModules/HttpModule_Factory.java
- org.fretron.usermanager.commonModules.HttpModule_Factory

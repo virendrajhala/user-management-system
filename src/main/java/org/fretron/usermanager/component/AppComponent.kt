@@ -4,16 +4,16 @@ import dagger.Component
 import org.freton.usermanager.repository.UserRepository
 import org.freton.usermanager.resource.UserResource
 import org.freton.usermanager.service.UserService
-import org.fretron.usermanager.commonModules.ConfigModule
-import org.fretron.usermanager.commonModules.DatabaseModule
-import org.fretron.usermanager.commonModules.HttpModule
+import org.fretron.usermanager.commonModules.*
 import org.glassfish.grizzly.http.server.HttpServer
 
 @Component (
     modules = [
         ConfigModule::class,
         DatabaseModule::class,
-        HttpModule::class
+        HttpModule::class,
+        ServiceModule::class,
+        RepositoryModule::class
     ]
 )
 interface AppComponent {

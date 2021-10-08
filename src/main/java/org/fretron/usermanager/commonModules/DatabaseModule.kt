@@ -4,22 +4,25 @@ import com.mongodb.MongoClient
 import com.mongodb.client.MongoDatabase
 import dagger.Module
 import dagger.Provides
+import javax.inject.Inject
+import javax.inject.Named
 
 @Module
 class DatabaseModule {
 
     @Provides
-    fun getMongoClient():MongoClient{
+    @Named("mongoClient")
+    fun getMongoClient(@Named("dbServerIp") databaseServerIp : String,
+                       @Named("dbServerPort") databaseServerPort : Int):MongoClient{
 
-        val host = "localhost"
-        val port = 27017
-        return MongoClient(host,port)
+        return MongoClient(databaseServerIp,databaseServerPort)
     }
 
     @Provides
-    fun getMongoDatabase():MongoDatabase{
+    @Named("mongoDatabase")
+    fun getMongoDatabase( @Named("dbName") databaseName : String,
+                          @Named("mongoClient") mongoClient: MongoClient):MongoDatabase{
 
-        val databaseName = "UserManager"
-        return getMongoClient().getDatabase(databaseName)
+        return mongoClient.getDatabase(databaseName)
     }
 }

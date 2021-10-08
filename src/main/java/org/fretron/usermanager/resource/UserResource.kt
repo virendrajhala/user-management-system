@@ -17,6 +17,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.StreamCorruptedException
 import javax.inject.Inject
+import javax.inject.Named
 import javax.print.attribute.standard.JobOriginatingUserName
 
 ////val userService = UserService()
@@ -25,7 +26,8 @@ import javax.print.attribute.standard.JobOriginatingUserName
 ////val gsonmapper = Gson().newBuilder().serializeNulls().create()
 //
 @Path("/user")
-class UserResource @Inject constructor(private val userService: UserService, private val mapper: ObjectMapper){
+class UserResource @Inject constructor( @Named("userService") private val userService: UserService,
+                                        @Named("objectMapper") private val mapper: ObjectMapper){
 
     @Path("/getUsers")
     @GET
